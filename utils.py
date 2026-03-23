@@ -96,6 +96,8 @@ def get_embedding_func() -> EmbeddingFunc:
             func=hf_embed
         )
 
+async def dummy_llm(*args, **kwargs):
+    return "LLM disabled in cloud mode"
 
 # ─────────────────────────────────────────────────────────────
 # INITIALIZE LIGHTRAG
@@ -130,9 +132,10 @@ async def initialize_lightrag() -> Optional[LightRAG]:
                 kv_storage="JsonKVStorage",
                 vector_storage="NanoVectorDBStorage",
                 embedding_func=get_embedding_func(),
-                llm_model_func=ollama_model_complete,
+                llm_model_func=dummy_llm,
                 chunk_token_size=900,
                 enable_llm_cache=False,
+                entity_extract_max_gleaning=0,
                 addon_params={"entity_types": DEFENCE_ENTITY_TYPES},
             )
 
