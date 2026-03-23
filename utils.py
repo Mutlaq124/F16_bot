@@ -46,7 +46,8 @@ def get_embedding_func() -> EmbeddingFunc:
     )
 
 
-from lightrag.storage import Neo4JStorage, JsonKVStorage
+from lightrag.kg.neo4j_impl import Neo4JStorage
+from lightrag.kg.json_kv_impl import JsonKVStorage
 import os
 
 async def initialize_lightrag() -> Optional[LightRAG]:
