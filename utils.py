@@ -70,7 +70,7 @@ def get_embedding_model():
 # ─────────────────────────────────────────────────────────────
 # EMBEDDING FUNCTION
 # ─────────────────────────────────────────────────────────────
-async def hf_embed(texts, *args, **kwargs):
+def hf_embed(texts, *args, **kwargs):
     model = get_embedding_model()
 
     # Optional safety: truncate long texts
@@ -83,7 +83,7 @@ async def hf_embed(texts, *args, **kwargs):
     )
 
     return embeddings.tolist()
-
+    
 
 def get_embedding_func() -> EmbeddingFunc:
     if USE_OLLAMA:
