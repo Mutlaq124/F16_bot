@@ -4,6 +4,7 @@ import requests
 from pathlib import Path
 from typing import Optional
 import os
+import numpy as np
 
 from lightrag import LightRAG
 from config import ollama_config, rag_config, USE_OLLAMA
