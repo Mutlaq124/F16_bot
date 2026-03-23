@@ -5,6 +5,8 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
+USE_OLLAMA = os.getenv("USE_OLLAMA", "True").lower() in ("true", "1")
+
 
 @dataclass
 class Neo4jConfig:

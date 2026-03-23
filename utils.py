@@ -5,17 +5,23 @@ from pathlib import Path
 from typing import Optional
 
 from lightrag import LightRAG
-try:
+from config import ollama_config, rag_config, USE_OLLAMA
+
+if USE_OLLAMA:
     from lightrag.llm.ollama import ollama_embed, ollama_model_complete
-except ImportError:
-    ollama_embed = None
-    ollama_model_complete = None
-    
+else:
+    # Dummy async functions to satisfy LightRAG when deployed on Streamlit without local daemon
+    async def ollama_model_complete(*args, **kwargs):
+        raise NotImplementedError("Ollama is disabled in Cloud. Use Groq/OpenRouter.")
+    async def ollama_embed(texts, *args, **kwargs):
+        return [[0.0] * ollama_config.embedding_dim for _ in texts]
+        
 from lightrag.utils import EmbeddingFunc
 from lightrag.kg.shared_storage import initialize_pipeline_status
 from lightrag.prompt import PROMPTS
 
-from config import ollama_config, rag_config
+from lightrag.prompt import PROMPTS
+
 from prompt_template import KG_EXTRACTION_PROMPT, DEFENCE_ENTITY_TYPES
 
 PROMPTS["entity_extraction_system_prompt"] = KG_EXTRACTION_PROMPT
@@ -73,6 +79,8 @@ async def initialize_lightrag() -> Optional[LightRAG]:
 
 
 def check_ollama_connection() -> bool:
+    if not USE_OLLAMA:
+        return True # Pretend it's ok to bypass UI blocks
     try:
         response = requests.get(f"{ollama_config.host}/api/tags", timeout=10)
         return response.status_code == 200
