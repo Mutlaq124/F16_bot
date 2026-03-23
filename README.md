@@ -138,44 +138,20 @@ Factual errors in the output. This combines retrieval and generation problems.
 
 ---
 
-## Deployment
-
-### Streamlit Cloud (recommended for portfolio)
-
-1. Build index locally pointing to Neo4j Aura: `NEO4J_URI=neo4j+s://...`
-2. Push to GitHub (index FAISS files + code, no .env)
-3. Deploy at [share.streamlit.io](https://share.streamlit.io)
-4. Set secrets: `GROQ_API_KEY`, `NEO4J_URI`, `NEO4J_USERNAME`, `NEO4J_PASSWORD`
-
-### Docker
-
-```bash
-docker build -t f16-bot .
-docker run -p 8501:8501 \
-  -e GROQ_API_KEY=your_key \
-  -e NEO4J_URI=bolt://host:7687 \
-  -e NEO4J_USERNAME=neo4j \
-  -e NEO4J_PASSWORD=your_pw \
-  -v $(pwd)/lightrag_neo4j_storage:/app/lightrag_neo4j_storage \
-  f16-bot
-```
-
----
-
 ## Tech Stack
 
 | Component | Technology |
 |---|---|
-| UI | Streamlit |
-| RAG Framework | LightRAG (Graph + Vector) |
+| User Interface | Streamlit |
+| RAG Framework | LightRAG |
 | Graph Database | Neo4j |
 | Vector Store | FAISS |
 | PDF Extraction | MinerU (magic-pdf) / PyMuPDF fallback |
 | Build LLM | Ollama LLaMA 3.1 8B |
 | Inference LLM | Groq LLaMA 3.3 70B |
 | Embeddings | nomic-embed-text |
-| Evaluation | LLM-as-judge (Groq) |
+| Evaluation | LLM-as-judge (OpenRouter LLM) |
 
 
 ## License
-This project is licensed under the terms of the MIT license.
+This project is licensed under the terms of the MIT license. 
