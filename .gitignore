@@ -37,7 +37,7 @@ Implement_docs.docx
 deployment.md
 
 # ─── Eval results (timestamped runs, not source code) ─────────────────────────
-eval/results_*.json
+# eval/results_*.json
 
 # ─── Logs ─────────────────────────────────────────────────────────────────────
 *.log
