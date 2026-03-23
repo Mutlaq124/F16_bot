@@ -618,6 +618,8 @@ if user_prompt := st.chat_input("Ask about F-16 systems, features, specification
                                 )
                             )
                         )
+                        st.write("**Retrieved context length**:", len(raw_ctx) if raw_ctx else 0)
+                        st.write("**First 200 chars of context**:", raw_ctx[:200] if raw_ctx else "EMPTY")
                     except Exception as e:
                         st.error(f"Knowledge graph retrieval failed: {e}")
                         st.stop()
