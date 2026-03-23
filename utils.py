@@ -5,7 +5,12 @@ from pathlib import Path
 from typing import Optional
 
 from lightrag import LightRAG
-from lightrag.llm.ollama import ollama_embed, ollama_model_complete
+try:
+    from lightrag.llm.ollama import ollama_embed, ollama_model_complete
+except ImportError:
+    ollama_embed = None
+    ollama_model_complete = None
+    
 from lightrag.utils import EmbeddingFunc
 from lightrag.kg.shared_storage import initialize_pipeline_status
 from lightrag.prompt import PROMPTS
