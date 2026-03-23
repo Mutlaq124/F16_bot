@@ -78,10 +78,10 @@ async def initialize_lightrag() -> Optional[LightRAG]:
                 
                 # Force Neo4j for graph + KV
                 graph_storage="Neo4JStorage",
-                kv_storage="JsonKVStorage",
+                kv_storage="JsonKVStorage", #in-memory fine for cloud
                 
                 # Disable local vector storage at query time (we only need graph)
-                vector_storage=None,
+                vector_storage="NanoVectorDBStorage", # in-memory vector storage(no files)
                 
                 # Pass dummies to prevent 'NoneType' callable crashes in aquery
                 embedding_func=get_embedding_func(),          
