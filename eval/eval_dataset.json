@@ -1,0 +1,102 @@
+[
+    {
+        "query": "What is the maximum operating airspeed and mach limit for the F-16 below and above 30,000 feet?",
+        "expected_answer": "The maximum operating airspeed is 800 knots from sea level to 30,000 feet MSL. Above 30,000 feet MSL, the aircraft is limited to 2.05 mach.",
+        "category": "Limitations"
+    },
+    {
+        "query": "What are the steps to recover from a Deep Stall?",
+        "expected_answer": "Hold the MPO switch in OVRD. Recognize pitching motions and begin stick cycling in-phase. If no pitch motions are apparent, apply an abrupt maximum command stick input to pitch the nose away from the ground (full aft for upright, full forward for inverted). Maintain MPO in OVRD until airspeed reaches 200 knots.",
+        "category": "Emergency Procedures"
+    },
+    {
+        "query": "Under what conditions does the Emergency Power Unit (EPU) automatically activate?",
+        "expected_answer": "The EPU automatically activates when both the main and standby generators fail, or when both hydraulic system A and B pressures fall below 1000 psi.",
+        "category": "Systems"
+    },
+    {
+        "query": "What should the pilot do if the SEC caution light illuminates while flying supersonic?",
+        "expected_answer": "The pilot must not retard the throttle below MIL until the aircraft is subsonic. Retarding the throttle below MIL while supersonic may induce inlet buzz, producing severe cockpit vibration and probable engine stalls.",
+        "category": "Emergency Procedures"
+    },
+    {
+        "query": "What are the tire speed limits for the Main Landing Gear (MLG) and Nose Landing Gear (NLG)?",
+        "expected_answer": "The MLG tires are certified for use up to 225 knots groundspeed. The NLG tire is certified for use up to 217 knots groundspeed.",
+        "category": "Limitations"
+    },
+    {
+        "query": "What does the EQUIP HOT caution light indicate, and what happens automatically when it illuminates?",
+        "expected_answer": "It indicates that the avionic equipment cooling air temperature/pressure is insufficient. Illumination of the EQUIP HOT caution light automatically interrupts electrical power to the radar.",
+        "category": "Indicators"
+    },
+    {
+        "query": "How long will the aircraft battery power the FLCS if the main, standby, and EPU generators all fail?",
+        "expected_answer": "The aircraft battery will supply power for FLCS operation for 3 to 14 minutes, depending on the state of the battery charge.",
+        "category": "Systems"
+    },
+    {
+        "query": "What are the correct procedures for a ground engine fire?",
+        "expected_answer": "1. Throttle - OFF. 2. JFS switch - OFF. 3. FUEL MASTER switch - OFF. 4. ENG FEED knob - OFF (if external power applied). 5. If fire continues, abandon the aircraft.",
+        "category": "Emergency Procedures"
+    },
+    {
+        "query": "What is the function of the MPO (Manual Pitch Override) switch?",
+        "expected_answer": "The MPO switch allows the pilot to manually control the horizontal tails during a deep stall by overriding the negative g limiter, and for AOAs above 35 degrees, it overrides the AOA/g limiter.",
+        "category": "Flight Controls"
+    },
+    {
+        "query": "What is the recommended AOA (Angle of Attack) for a normal landing approach?",
+        "expected_answer": "The recommended AOA for a normal landing approach is 11 or 13 degrees.",
+        "category": "Normal Procedures"
+    },
+    {
+        "query": "What happens if you use the parking brake to stop an aircraft with single brake failure?",
+        "expected_answer": "Setting the parking brake with a single brake failure may indicate a hydraulic leak in the brake itself. Application of the parking brake could deplete the hydraulic system and result in total brake failure.",
+        "category": "Emergency Procedures"
+    },
+    {
+        "query": "What is Limit Cycle Oscillation (LCO) and how do you stop it?",
+        "expected_answer": "LCO is a constant frequency oscillation (buffeting/lateral acceleration) that occurs with certain store loadings. If encountered and uncomfortable, the pilot should reduce airspeed and/or load factor.",
+        "category": "Flight Dynamics"
+    },
+    {
+        "query": "During an airstart for a PW220/229 engine, what is the minimum airspeed required for a spooldown airstart in PRI?",
+        "expected_answer": "The minimum airspeed for a spooldown airstart in PRI for the PW220/PW229 engine is 250 knots.",
+        "category": "Emergency Procedures"
+    },
+    {
+        "query": "What triggers the TO/LDG CONFIG warning light and the landing gear horn?",
+        "expected_answer": "They trigger if the airspeed is below 190 knots, altitude is less than 10,000 feet, rate of descent is greater than 250 fpm, and either the trailing edge flaps (TEFs) are not full down or the landing gear is not down and locked.",
+        "category": "Indicators"
+    },
+    {
+        "query": "How do you recover from a blown Nose Landing Gear (NLG) tire on takeoff?",
+        "expected_answer": "Hold the nosewheel off the runway if able, use two-point aerodynamic braking until control decays, lower the nosewheel, engage NWS immediately to maintain directional control, and use aft stick to reduce load on the NLG after brakes are applied.",
+        "category": "Emergency Procedures"
+    },
+    {
+        "query": "What is the maximum roll trim authority of the aircraft in cruise gains?",
+        "expected_answer": "Maximum roll trim authority is approximately one-fifth of the maximum stick command in cruise gains.",
+        "category": "Flight Controls"
+    },
+    {
+        "query": "What indicates a Hot Start on the PW220 engine during ground operations?",
+        "expected_answer": "A hot start is indicated by the FTIT exceeding 680\u00b0C or increasing at an abnormally rapid rate through 575\u00b0C.",
+        "category": "Indicators"
+    },
+    {
+        "query": "What actions must be taken if canopy damage or a crack occurs in flight?",
+        "expected_answer": "Maintain a maximum airspeed of 180 knots, lower the seat full down, extend the ALT FLAPS, and land as soon as possible. If it's a spontaneous crack, maintain minimum practical altitude and airspeed and land as soon as practical.",
+        "category": "Emergency Procedures"
+    },
+    {
+        "query": "In the event of a KC-10 boom flight control system failure during aerial refueling, what should the receiver pilot do?",
+        "expected_answer": "The pilot must not initiate a disconnect unless directed by the boom operator and must follow the boom operator's instructions explicitly to prevent the boom from striking the receiver aircraft.",
+        "category": "Refueling"
+    },
+    {
+        "query": "What happens if you pull the ALT GEAR handle?",
+        "expected_answer": "It supplies pneumatic pressure from the emergency bottle to open all landing gear doors, extend the NLG, and shut off the LG selector hydraulic valve. NWS will not be available afterward.",
+        "category": "Systems"
+    }
+]

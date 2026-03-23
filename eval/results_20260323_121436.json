@@ -1,0 +1,330 @@
+{
+  "run_metadata": {
+    "timestamp": "2026-03-23T12:27:06.686330",
+    "mode": "hybrid",
+    "top_k": 10,
+    "total_queries": 20,
+    "generator_model": "meta-llama/llama-3.3-70b-instruct",
+    "judge_model": "openai/gpt-4o-mini"
+  },
+  "overall_metrics": {
+    "faithfulness": 0.95,
+    "context_recall": 0.88,
+    "context_precision": 0.955,
+    "answer_relevance": 0.86,
+    "answer_correctness": 0.885
+  },
+  "overall_average": 0.906,
+  "category_averages": {
+    "Limitations": 0.97,
+    "Emergency Procedures": 0.9714,
+    "Systems": 0.9,
+    "Indicators": 0.9533,
+    "Flight Controls": 0.92,
+    "Normal Procedures": 0.96,
+    "Flight Dynamics": 0.04,
+    "Refueling": 0.98
+  },
+  "per_query_results": [
+    {
+      "query": "What is the maximum operating airspeed and mach limit for the F-16 below and above 30,000 feet?",
+      "category": "Limitations",
+      "expected_answer": "The maximum operating airspeed is 800 knots from sea level to 30,000 feet MSL. Above 30,000 feet MSL, the aircraft is limited to 2.05 mach.",
+      "generated_answer": "The maximum operating airspeed is 800 knots from sea level to 30,000 feet MSL. Above 30,000 feet MSL, the aircraft is limited to 2.05 mach.\n\nReferences:\n[1] F_16_manual.pdf, Page",
+      "retrieved_context_length": 74513,
+      "scores": {
+        "faithfulness": 1.0,
+        "context_recall": 1.0,
+        "context_precision": 1.0,
+        "answer_relevance": 0.7,
+        "answer_correctness": 1.0
+      },
+      "average_score": 0.94
+    },
+    {
+      "query": "What are the steps to recover from a Deep Stall?",
+      "category": "Emergency Procedures",
+      "expected_answer": "Hold the MPO switch in OVRD. Recognize pitching motions and begin stick cycling in-phase. If no pitch motions are apparent, apply an abrupt maximum command stick input to pitch the nose away from the ground (full aft for upright, full forward for inverted). Maintain MPO in OVRD until airspeed reaches 200 knots.",
+      "generated_answer": "To recover from a Deep Stall, follow these steps:\n\n1. Allow the aircraft to self-recover if altitude permits. If recovery is not apparent after two post-departure pitch oscillations (10-20 seconds), the aircraft must be rocked out of a deep stall.\n2. To pitch rock the aircraft, the MPO switch must be firmly held in OVRD until recovery is complete.\n3. Recognize any pitching motions and begin stick cycling in-phase with these motions. If no pitch motions are apparent, an abrupt maximum command stick input to pitch the nose away from the ground (full aft stick for an upright deep stall, full forward for an inverted deep stall) will reverse the horizontal tail deflection and should generate a noticeable pitch rate.\n4. The best indicator for timing stick cycles is the nose position relative to the horizon, or if no outside references are available, the ADI may be useful.\n5. In an upright deep stall, an aft stick command increases the AOA and pitch angle. When the nose reaches its highest point and reverses direction, a full forward stick command reinforces the nose-down pitch rate.\n6. One complete pitch rocking cycle takes approximately 6 seconds, during which time the aircraft descends 1000 to 1500 feet.\n7. If the nose-down pitch rate is large enough, the upright deep stall is broken and AOA returns to the normal range (below +25 degrees).\n8. If the nose-down pitch rate is insufficient, the nose stops its downward motion and either begins to rise or stabilizes. Promptly reapply the full aft stick command when the nose reverses or after 2-3 seconds if reversal is not apparent.\n9. Holding full forward stick more than 2-3 seconds with the nose stabilized can generate a rapid yaw rate and delay recovery.\n10. If the aircraft has not recovered after 2-3 seconds or if a yaw rate develops, reapply full aft stick and complete another in-phase pitch rocking cycle.\n11. Just prior to breaking the deep stall, the nose-down pitch rate may decrease or even stop. Unless the nose either definitely starts back up or stabilizes for longer than 2-3 seconds, another pitch-up cycle should not be started.\n12. On the pitch-down cycle, the stick should be held full forward (upright) or aft (inverted) while the nose hesitates as the stall breaks.\n13. Following a short hesitation (less than 2-3 seconds), the nose continues down to near vertical.\n14. Once the deep stall is broken, aggressive pilot commands are usually required to stop the pitch rate in a steep dive.\n15. If possible, find and track a feature on the ground.\n16. Maintain firm pressure on the MPO switch until airspeed reaches 200 knots.\n17. If a transition to an opposite AOA deep stall does occur, reinforce the already present pitch motion with the MPO still engaged and recovery should be rapid.\n\nReferences:\n[1] F_16_manual.pdf, Page 229, Page 230, Page 236, Page 228",
+      "retrieved_context_length": 75557,
+      "scores": {
+        "faithfulness": 1.0,
+        "context_recall": 1.0,
+        "context_precision": 1.0,
+        "answer_relevance": 1.0,
+        "answer_correctness": 0.8
+      },
+      "average_score": 0.96
+    },
+    {
+      "query": "Under what conditions does the Emergency Power Unit (EPU) automatically activate?",
+      "category": "Systems",
+      "expected_answer": "The EPU automatically activates when both the main and standby generators fail, or when both hydraulic system A and B pressures fall below 1000 psi.",
+      "generated_answer": "The Emergency Power Unit (EPU) automatically activates when both main and standby generators fail or when both hydraulic system pressures fall below 1000 psi.\n\nReferences:\n[1] F_16_manual.pdf, Page 76",
+      "retrieved_context_length": 63526,
+      "scores": {
+        "faithfulness": 1.0,
+        "context_recall": 1.0,
+        "context_precision": 1.0,
+        "answer_relevance": 1.0,
+        "answer_correctness": 0.9
+      },
+      "average_score": 0.98
+    },
+    {
+      "query": "What should the pilot do if the SEC caution light illuminates while flying supersonic?",
+      "category": "Emergency Procedures",
+      "expected_answer": "The pilot must not retard the throttle below MIL until the aircraft is subsonic. Retarding the throttle below MIL while supersonic may induce inlet buzz, producing severe cockpit vibration and probable engine stalls.",
+      "generated_answer": "If the SEC caution light illuminates while flying supersonic, the pilot should not retard the throttle below MIL until subsonic. \n\n1. Throttle - Do not retard below MIL until subsonic.\n \nCAUTION: Retarding the throttle below MIL while supersonic may induce inlet buzz which produces severe cockpit vibration and probable engine stalls.\n\nReferences:\n[1] F_16_manual.pdf, Page 337",
+      "retrieved_context_length": 66311,
+      "scores": {
+        "faithfulness": 1.0,
+        "context_recall": 1.0,
+        "context_precision": 1.0,
+        "answer_relevance": 1.0,
+        "answer_correctness": 1.0
+      },
+      "average_score": 1.0
+    },
+    {
+      "query": "What are the tire speed limits for the Main Landing Gear (MLG) and Nose Landing Gear (NLG)?",
+      "category": "Limitations",
+      "expected_answer": "The MLG tires are certified for use up to 225 knots groundspeed. The NLG tire is certified for use up to 217 knots groundspeed.",
+      "generated_answer": "The Main Landing Gear (MLG) tires are certified for use to 225 knots groundspeed, and the Nose Landing Gear (NLG) tire is certified for use to 217 knots groundspeed.\n\nReferences:\n[1] F_16_manual.pdf, Page 206",
+      "retrieved_context_length": 64595,
+      "scores": {
+        "faithfulness": 1.0,
+        "context_recall": 1.0,
+        "context_precision": 1.0,
+        "answer_relevance": 1.0,
+        "answer_correctness": 1.0
+      },
+      "average_score": 1.0
+    },
+    {
+      "query": "What does the EQUIP HOT caution light indicate, and what happens automatically when it illuminates?",
+      "category": "Indicators",
+      "expected_answer": "It indicates that the avionic equipment cooling air temperature/pressure is insufficient. Illumination of the EQUIP HOT caution light automatically interrupts electrical power to the radar.",
+      "generated_answer": "The EQUIP HOT caution light illuminates when the avionics equipment cooling air temperature/pressure is insufficient, indicating potential degraded equipment performance and/or damage due to overheating. When the EQUIP HOT caution light illuminates, it automatically interrupts electrical power to the radar.\n\nHere are the steps to follow when the EQUIP HOT caution light illuminates:\n1. AIR SOURCE knob - Confirm in NORM if smoke or fumes are not present.\n2. Throttle - 80 percent rpm minimum (in flight).\n3. If the EQUIP HOT caution light remains on after 1 minute: Nonessential avionics - Off.\n4. Land as soon as practical.\n\nReferences:\n[1] F_16_manual.pdf (Page 301, Page 63)",
+      "retrieved_context_length": 65719,
+      "scores": {
+        "faithfulness": 1.0,
+        "context_recall": 0.8,
+        "context_precision": 1.0,
+        "answer_relevance": 1.0,
+        "answer_correctness": 1.0
+      },
+      "average_score": 0.96
+    },
+    {
+      "query": "How long will the aircraft battery power the FLCS if the main, standby, and EPU generators all fail?",
+      "category": "Systems",
+      "expected_answer": "The aircraft battery will supply power for FLCS operation for 3 to 14 minutes, depending on the state of the battery charge.",
+      "generated_answer": "The aircraft battery supplies power for FLCS operation for 3-14 minutes after total generator failure.\n\nReferences:\n[1] F_16_manual.pdf, Page 310",
+      "retrieved_context_length": 65000,
+      "scores": {
+        "faithfulness": 1.0,
+        "context_recall": 1.0,
+        "context_precision": 1.0,
+        "answer_relevance": 1.0,
+        "answer_correctness": 1.0
+      },
+      "average_score": 1.0
+    },
+    {
+      "query": "What are the correct procedures for a ground engine fire?",
+      "category": "Emergency Procedures",
+      "expected_answer": "1. Throttle - OFF. 2. JFS switch - OFF. 3. FUEL MASTER switch - OFF. 4. ENG FEED knob - OFF (if external power applied). 5. If fire continues, abandon the aircraft.",
+      "generated_answer": "For a ground engine fire, the correct procedures are as follows:\n1. Throttle - OFF.\n2. JFS switch - OFF.\n3. FUEL MASTER switch - OFF.\n4. ENG FEED knob - OFF (if external power applied).\nIf the fire continues:\n5. Abandon aircraft.\n\nReferences:\nF_16_manual.pdf (Page 280)",
+      "retrieved_context_length": 75970,
+      "scores": {
+        "faithfulness": 1.0,
+        "context_recall": 1.0,
+        "context_precision": 1.0,
+        "answer_relevance": 1.0,
+        "answer_correctness": 1.0
+      },
+      "average_score": 1.0
+    },
+    {
+      "query": "What is the function of the MPO (Manual Pitch Override) switch?",
+      "category": "Flight Controls",
+      "expected_answer": "The MPO switch allows the pilot to manually control the horizontal tails during a deep stall by overriding the negative g limiter, and for AOAs above 35 degrees, it overrides the AOA/g limiter.",
+      "generated_answer": "The MPO (Manual Pitch Override) switch is used during a deep stall condition to enable manual control of the horizontal tails. It has two positions, NORM and OVRD, and is spring-loaded to the NORM position. When the switch is positioned to OVRD, it overrides the negative g limiter and allows the pilot to have manual control over the pitch axis.\n\nTo recover from a deep stall using the MPO switch, the following steps are taken:\n1. The MPO switch must be firmly held in OVRD until recovery is complete.\n2. Recognize any pitching motions and begin stick cycling in-phase with these motions.\n3. If no pitch motions are apparent, an abrupt maximum command stick input to pitch the nose away from the ground will reverse the horizontal tail deflection and should generate a noticeable pitch rate.\n4. The best indicator for timing stick cycles is the nose position relative to the horizon, or if no outside references are available, the ADI may be useful.\n5. In an upright deep stall, an aft stick command increases the AOA and pitch angle, and when the nose reaches its highest point and reverses direction, a full forward stick command reinforces the nose-down pitch rate.\n6. If the nose-down pitch rate is large enough, the upright deep stall is broken and AOA returns to the normal range.\n7. If the aircraft has not recovered after 2-3 seconds or if a yaw rate develops, reapply full aft stick and complete another in-phase pitch rocking cycle.\n\nReferences:\n[1] F_16_manual.pdf, pages 108, 229, 230, 233",
+      "retrieved_context_length": 65597,
+      "scores": {
+        "faithfulness": 1.0,
+        "context_recall": 1.0,
+        "context_precision": 1.0,
+        "answer_relevance": 0.8,
+        "answer_correctness": 0.8
+      },
+      "average_score": 0.92
+    },
+    {
+      "query": "What is the recommended AOA (Angle of Attack) for a normal landing approach?",
+      "category": "Normal Procedures",
+      "expected_answer": "The recommended AOA for a normal landing approach is 11 or 13 degrees.",
+      "generated_answer": "The recommended AOA for a normal landing approach is 11- or 13-degrees AOA. \n\nReferences:\n[1] F_16_manual.pdf, Page 217, Page 182, Page 234, Page 116, Page 341, Page 393, Page 190, Page 396, Page 392",
+      "retrieved_context_length": 70593,
+      "scores": {
+        "faithfulness": 1.0,
+        "context_recall": 1.0,
+        "context_precision": 1.0,
+        "answer_relevance": 0.8,
+        "answer_correctness": 1.0
+      },
+      "average_score": 0.96
+    },
+    {
+      "query": "What happens if you use the parking brake to stop an aircraft with single brake failure?",
+      "category": "Emergency Procedures",
+      "expected_answer": "Setting the parking brake with a single brake failure may indicate a hydraulic leak in the brake itself. Application of the parking brake could deplete the hydraulic system and result in total brake failure.",
+      "generated_answer": "If you use the parking brake to stop an aircraft with single brake failure, it may deplete the hydraulic system and result in total brake failure. Single brake failure may indicate a hydraulic leak in the brake itself, and application of the parking brake could exacerbate this issue. Instead, continuous pedal pressure on the good brake only is recommended.\n\nReferences:\n[1] F_16_manual.pdf, pages 283, 284, 285, 270, 249, 90, 291, 378, 282, 61",
+      "retrieved_context_length": 61523,
+      "scores": {
+        "faithfulness": 1.0,
+        "context_recall": 1.0,
+        "context_precision": 0.9,
+        "answer_relevance": 0.8,
+        "answer_correctness": 0.9
+      },
+      "average_score": 0.92
+    },
+    {
+      "query": "What is Limit Cycle Oscillation (LCO) and how do you stop it?",
+      "category": "Flight Dynamics",
+      "expected_answer": "LCO is a constant frequency oscillation (buffeting/lateral acceleration) that occurs with certain store loadings. If encountered and uncomfortable, the pilot should reduce airspeed and/or load factor.",
+      "generated_answer": "Based on the provided documents, I cannot answer that question.\n\nReferences:\n[1] F_16_manual.pdf (pages 108, 62, 100, 289, 216, 127, 299, 99, 110, 207)",
+      "retrieved_context_length": 70614,
+      "scores": {
+        "faithfulness": 0.0,
+        "context_recall": 0.0,
+        "context_precision": 0.2,
+        "answer_relevance": 0.0,
+        "answer_correctness": 0.0
+      },
+      "average_score": 0.04
+    },
+    {
+      "query": "During an airstart for a PW220/229 engine, what is the minimum airspeed required for a spooldown airstart in PRI?",
+      "category": "Emergency Procedures",
+      "expected_answer": "The minimum airspeed for a spooldown airstart in PRI for the PW220/PW229 engine is 250 knots.",
+      "generated_answer": "The minimum airspeed required for a spooldown airstart in PRI for a PW220/229 engine is 250 knots.\n\nReferences:\n[1] F_16_manual.pdf, pages 353, 355, 357, 368, 374, 184, 217",
+      "retrieved_context_length": 84027,
+      "scores": {
+        "faithfulness": 1.0,
+        "context_recall": 1.0,
+        "context_precision": 1.0,
+        "answer_relevance": 1.0,
+        "answer_correctness": 1.0
+      },
+      "average_score": 1.0
+    },
+    {
+      "query": "What triggers the TO/LDG CONFIG warning light and the landing gear horn?",
+      "category": "Indicators",
+      "expected_answer": "They trigger if the airspeed is below 190 knots, altitude is less than 10,000 feet, rate of descent is greater than 250 fpm, and either the trailing edge flaps (TEFs) are not full down or the landing gear is not down and locked.",
+      "generated_answer": "The TO/LDG CONFIG warning light illuminates in flight whenever pressure altitude is less than 10,000 feet, airspeed is less than 190 knots, rate of descent is greater than 250 fpm, and either of the following conditions exists: TEF\u2019s not full down, or NLG or either MLG not down and locked. The LG warning horn sounds in the headset when the NLG or MLG is not down and locked and all the following conditions exist: airspeed is below 190 knots, pressure altitude is less than 10,000 feet, and rate of descent is greater than 250 fpm.\n\nReferences:\n[1] F_16_manual.pdf, Page 82, Page",
+      "retrieved_context_length": 61918,
+      "scores": {
+        "faithfulness": 1.0,
+        "context_recall": 1.0,
+        "context_precision": 1.0,
+        "answer_relevance": 0.9,
+        "answer_correctness": 0.8
+      },
+      "average_score": 0.94
+    },
+    {
+      "query": "How do you recover from a blown Nose Landing Gear (NLG) tire on takeoff?",
+      "category": "Emergency Procedures",
+      "expected_answer": "Hold the nosewheel off the runway if able, use two-point aerodynamic braking until control decays, lower the nosewheel, engage NWS immediately to maintain directional control, and use aft stick to reduce load on the NLG after brakes are applied.",
+      "generated_answer": "To recover from a blown Nose Landing Gear (NLG) tire on takeoff, follow these steps:\n\n1. Check engine instruments and continue the takeoff if the engine is operating normally.\n2. Do not retract the Landing Gear (LG).\n3. Reduce Gross Weight (GW) if practical.\n4. Prepare to land as soon as practical.\n5. If aborting with a blown NLG tire, hold the nosewheel off the runway (if able) and use two-point aerodynamic braking until control effectiveness begins to decay.\n6. Lower the nosewheel to the runway and immediately engage Nosewheel Steering (NWS), if available, to maintain directional control.\n7. Use aft stick to reduce load on the NLG after brakes are applied.\n8. If NWS is not available, the aircraft tends to drift right; attempt to move to the left side of the runway before rudder effectiveness is lost and maintain directional control with rudder and differential braking.\n9. Stop short of the departure-end arresting cable if possible.\n\nReferences:\n[1] F_16_manual.pdf (Pages 295, 296)",
+      "retrieved_context_length": 66770,
+      "scores": {
+        "faithfulness": 1.0,
+        "context_recall": 0.8,
+        "context_precision": 1.0,
+        "answer_relevance": 0.9,
+        "answer_correctness": 1.0
+      },
+      "average_score": 0.94
+    },
+    {
+      "query": "What is the maximum roll trim authority of the aircraft in cruise gains?",
+      "category": "Flight Controls",
+      "expected_answer": "Maximum roll trim authority is approximately one-fifth of the maximum stick command in cruise gains.",
+      "generated_answer": "The maximum roll trim authority is approximately one-fifth of maximum stick command of cruise gains.\n\nReferences:\n[1] F_16_manual.pdf, Page 215",
+      "retrieved_context_length": 54826,
+      "scores": {
+        "faithfulness": 1.0,
+        "context_recall": 1.0,
+        "context_precision": 1.0,
+        "answer_relevance": 0.6,
+        "answer_correctness": 1.0
+      },
+      "average_score": 0.92
+    },
+    {
+      "query": "What indicates a Hot Start on the PW220 engine during ground operations?",
+      "category": "Indicators",
+      "expected_answer": "A hot start is indicated by the FTIT exceeding 680\u00b0C or increasing at an abnormally rapid rate through 575\u00b0C.",
+      "generated_answer": "A Hot Start on the PW220 engine during ground operations is indicated by the FTIT increasing at an abnormally rapid rate through 575\u00b0C during engine start.\n\nReferences:\n[1] F_16_manual.pdf, Page 280",
+      "retrieved_context_length": 69895,
+      "scores": {
+        "faithfulness": 1.0,
+        "context_recall": 1.0,
+        "context_precision": 1.0,
+        "answer_relevance": 1.0,
+        "answer_correctness": 0.8
+      },
+      "average_score": 0.96
+    },
+    {
+      "query": "What actions must be taken if canopy damage or a crack occurs in flight?",
+      "category": "Emergency Procedures",
+      "expected_answer": "Maintain a maximum airspeed of 180 knots, lower the seat full down, extend the ALT FLAPS, and land as soon as possible. If it's a spontaneous crack, maintain minimum practical altitude and airspeed and land as soon as practical.",
+      "generated_answer": "If a canopy crack occurs during flight, the following actions must be taken:\n1. Airspeed - 180 knots maximum.\n2. Seat - Full down.\n3. ALT FLAPS switch - EXTEND.\n4. Land as soon as possible.\nIf a canopy crack has occurred:\n5. Airspeed and altitude - Minimum practical.\n6. Land as soon as practical.\n\nReferences:\n[1] F_16_manual.pdf, Page 298",
+      "retrieved_context_length": 56267,
+      "scores": {
+        "faithfulness": 1.0,
+        "context_recall": 1.0,
+        "context_precision": 1.0,
+        "answer_relevance": 0.9,
+        "answer_correctness": 1.0
+      },
+      "average_score": 0.98
+    },
+    {
+      "query": "In the event of a KC-10 boom flight control system failure during aerial refueling, what should the receiver pilot do?",
+      "category": "Refueling",
+      "expected_answer": "The pilot must not initiate a disconnect unless directed by the boom operator and must follow the boom operator's instructions explicitly to prevent the boom from striking the receiver aircraft.",
+      "generated_answer": "In the event of a KC-10 boom flight control system failure during aerial refueling, the receiver pilot should not initiate a disconnect unless directed by the boom operator. The receiver pilot should follow the boom operator\u2019s instructions explicitly to reduce the probability of boom strike after disconnect. It may be necessary to remain in a stabilized position to allow for aerodynamic fairing of the boom control surfaces.\n\nHere are the steps to follow:\n1. Do not initiate a disconnect unless directed by the boom operator.\n2. Follow the boom operator\u2019s instructions explicitly.\n3. Remain in a stabilized position if necessary, to allow for aerodynamic fairing of the boom control surfaces.\n\nReferences:\n[1] F_16_manual.pdf, Page 264, Page 269",
+      "retrieved_context_length": 69539,
+      "scores": {
+        "faithfulness": 1.0,
+        "context_recall": 1.0,
+        "context_precision": 1.0,
+        "answer_relevance": 1.0,
+        "answer_correctness": 0.9
+      },
+      "average_score": 0.98
+    },
+    {
+      "query": "What happens if you pull the ALT GEAR handle?",
+      "category": "Systems",
+      "expected_answer": "It supplies pneumatic pressure from the emergency bottle to open all landing gear doors, extend the NLG, and shut off the LG selector hydraulic valve. NWS will not be available afterward.",
+      "generated_answer": "When the ALT GEAR handle is pulled, it supplies pneumatic pressure to open all landing gear (LG) doors, extend the nose landing gear (NLG), and shut off the LG selector hydraulic valve. The LG/hook emergency pneumatic bottle is also used to lower the hook and contains sufficient pneumatic pressure for one LG extension and to hold the hook down.\n\nReferences:\n[1] F_16_manual.pdf, Page 313, Page 92, Page 97, Page 75, Page 294, Page 339, Page 83, Page 351, Page 81, Page 139",
+      "retrieved_context_length": 74144,
+      "scores": {
+        "faithfulness": 1.0,
+        "context_recall": 0.0,
+        "context_precision": 1.0,
+        "answer_relevance": 0.8,
+        "answer_correctness": 0.8
+      },
+      "average_score": 0.72
+    }
+  ]
+}
