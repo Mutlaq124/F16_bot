@@ -83,12 +83,12 @@ async def initialize_lightrag() -> Optional[LightRAG]:
                 # Disable local vector storage at query time (we only need graph)
                 vector_storage="NanoVectorDBStorage", # in-memory vector storage(no files)
                 
-                # Pass dummies to prevent 'NoneType' callable crashes in aquery
-                embedding_func=get_embedding_func(),          
-                llm_model_func=ollama_model_complete,          
+                # no llm at query time 
+                embedding_func=None,          
+                llm_model_func=None,          
                 
                 chunk_token_size=900,
-                enable_llm_cache=True,
+                enable_llm_cache=False,
                 addon_params={"entity_types": DEFENCE_ENTITY_TYPES},
             )
 
