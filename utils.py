@@ -46,8 +46,6 @@ def get_embedding_func() -> EmbeddingFunc:
     )
 
 
-from lightrag.kg.neo4j_impl import Neo4JStorage
-from lightrag.kg.json_kv_impl import JsonKVStorage
 import os
 
 async def initialize_lightrag() -> Optional[LightRAG]:
@@ -79,13 +77,8 @@ async def initialize_lightrag() -> Optional[LightRAG]:
                 workspace="f16_bot",
                 
                 # Force Neo4j for graph + KV
-                graph_storage=Neo4JStorage(
-                    uri=os.getenv("NEO4J_URI"),
-                    username=os.getenv("NEO4J_USERNAME"),
-                    password=os.getenv("NEO4J_PASSWORD"),
-                    database=os.getenv("NEO4J_DATABASE", "de61a7a7")   # keep your working one
-                ),
-                kv_storage=JsonKVStorage(),   # in-memory fallback (safe on cloud)
+                graph_storage="Neo4JStorage",
+                kv_storage="JsonKVStorage",
                 
                 # Disable local vector storage at query time (we only need graph)
                 vector_storage=None,
