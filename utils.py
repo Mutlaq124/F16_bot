@@ -3,25 +3,26 @@ import re
 import requests
 from pathlib import Path
 from typing import Optional
+import os
 
 from lightrag import LightRAG
 from config import ollama_config, rag_config, USE_OLLAMA
 
+# ─────────────────────────────────────────────────────────────
+# LLM / EMBEDDING IMPORTS
+# ─────────────────────────────────────────────────────────────
 if USE_OLLAMA:
     from lightrag.llm.ollama import ollama_embed, ollama_model_complete
 else:
-    # Dummy async functions to satisfy LightRAG when deployed on Streamlit without local daemon
     async def ollama_model_complete(*args, **kwargs):
-        raise NotImplementedError("Ollama is disabled in Cloud. Use Groq/OpenRouter.")
-    async def ollama_embed(texts, *args, **kwargs):
-        return [[0.0] * ollama_config.embedding_dim for _ in texts]
-        
+        raise NotImplementedError("Ollama disabled in cloud.")
+
+# ─────────────────────────────────────────────────────────────
+# CORE IMPORTS
+# ─────────────────────────────────────────────────────────────
 from lightrag.utils import EmbeddingFunc
 from lightrag.kg.shared_storage import initialize_pipeline_status
 from lightrag.prompt import PROMPTS
-
-from lightrag.prompt import PROMPTS
-
 from prompt_template import KG_EXTRACTION_PROMPT, DEFENCE_ENTITY_TYPES
 
 PROMPTS["entity_extraction_system_prompt"] = KG_EXTRACTION_PROMPT
@@ -32,27 +33,87 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
+# ─────────────────────────────────────────────────────────────
+# EMBEDDING MODEL (CACHED)
+# ─────────────────────────────────────────────────────────────
+def get_embedding_model():
+    """
+    Loads and caches the HuggingFace embedding model.
+    Uses Streamlit cache when available.
+    """
+    try:
+        import streamlit as st
 
-def get_embedding_func() -> EmbeddingFunc:
-    logger.info(f"Embedding function: {ollama_config.embed_model}")
-    return EmbeddingFunc(
-        embedding_dim=ollama_config.embedding_dim,
-        max_token_size=ollama_config.max_tokens_embed,
-        func=lambda texts: ollama_embed(
-            texts,
-            embed_model=ollama_config.embed_model,
-            host=ollama_config.host
+        @st.cache_resource
+        def _load():
+            from sentence_transformers import SentenceTransformer
+            logger.info("Loading HuggingFace nomic-embed-text-v1.5...")
+            return SentenceTransformer(
+                "nomic-ai/nomic-embed-text-v1.5",
+                trust_remote_code=True,
+                device="cpu"
+            )
+
+        return _load()
+
+    except ImportError:
+        # Fallback (non-streamlit environments)
+        from sentence_transformers import SentenceTransformer
+        logger.info("Loading model without Streamlit cache...")
+        return SentenceTransformer(
+            "nomic-ai/nomic-embed-text-v1.5",
+            trust_remote_code=True,
+            device="cpu"
         )
+
+
+# ─────────────────────────────────────────────────────────────
+# EMBEDDING FUNCTION
+# ─────────────────────────────────────────────────────────────
+async def hf_embed(texts, *args, **kwargs):
+    model = get_embedding_model()
+
+    # Optional safety: truncate long texts
+    texts = [t[:2000] for t in texts]
+
+    embeddings = model.encode(
+        texts,
+        batch_size=16,
+        show_progress_bar=False
     )
 
+    return embeddings.tolist()
 
-import os
 
+def get_embedding_func() -> EmbeddingFunc:
+    if USE_OLLAMA:
+        logger.info(f"Embedding function: {ollama_config.embed_model}")
+        return EmbeddingFunc(
+            embedding_dim=ollama_config.embedding_dim,
+            max_token_size=ollama_config.max_tokens_embed,
+            func=lambda texts: ollama_embed(
+                texts,
+                embed_model=ollama_config.embed_model,
+                host=ollama_config.host
+            )
+        )
+    else:
+        logger.info("Embedding function: HuggingFace Nomic (768 dim)")
+        return EmbeddingFunc(
+            embedding_dim=768,  # MUST match your index
+            max_token_size=2048,
+            func=hf_embed
+        )
+
+
+# ─────────────────────────────────────────────────────────────
+# INITIALIZE LIGHTRAG
+# ─────────────────────────────────────────────────────────────
 async def initialize_lightrag() -> Optional[LightRAG]:
     try:
         if USE_OLLAMA:
-            # Local mode with FAISS & Embedder
             Path(rag_config.working_dir).mkdir(parents=True, exist_ok=True)
+
             rag = LightRAG(
                 working_dir=rag_config.working_dir,
                 embedding_func=get_embedding_func(),
@@ -71,22 +132,14 @@ async def initialize_lightrag() -> Optional[LightRAG]:
                 addon_params={"entity_types": DEFENCE_ENTITY_TYPES},
             )
         else:
-            # User provided GRAPH-ONLY cloud deployment snippet
             rag = LightRAG(
-                working_dir="./lightrag_storage",           # dummy folder (won't be used much)
+                working_dir="./lightrag_storage",
                 workspace="f16_bot",
-                
-                # Force Neo4j for graph + KV
                 graph_storage="Neo4JStorage",
-                kv_storage="JsonKVStorage", #in-memory fine for cloud
-                
-                # Disable local vector storage at query time (we only need graph)
-                vector_storage=None, 
-                
-                # no llm at query time 
-                embedding_func=None,          
-                llm_model_func=None,          
-                
+                kv_storage="JsonKVStorage",
+                vector_storage="NanoVectorDBStorage",
+                embedding_func=get_embedding_func(),
+                llm_model_func=None,
                 chunk_token_size=900,
                 enable_llm_cache=False,
                 addon_params={"entity_types": DEFENCE_ENTITY_TYPES},
@@ -94,7 +147,8 @@ async def initialize_lightrag() -> Optional[LightRAG]:
 
         await rag.initialize_storages()
         await initialize_pipeline_status()
-        logger.info(f"✅ LightRAG initialized. (Graph-Only Mode: {not USE_OLLAMA})")
+
+        logger.info(f"✅ LightRAG initialized. (Cloud: {not USE_OLLAMA})")
         return rag
 
     except Exception as e:
@@ -102,9 +156,12 @@ async def initialize_lightrag() -> Optional[LightRAG]:
         return None
 
 
+# ─────────────────────────────────────────────────────────────
+# CONNECTION CHECK
+# ─────────────────────────────────────────────────────────────
 def check_ollama_connection() -> bool:
     if not USE_OLLAMA:
-        return True # Pretend it's ok to bypass UI blocks
+        return True
     try:
         response = requests.get(f"{ollama_config.host}/api/tags", timeout=10)
         return response.status_code == 200
@@ -112,11 +169,10 @@ def check_ollama_connection() -> bool:
         return False
 
 
+# ─────────────────────────────────────────────────────────────
+# CONTEXT PARSER
+# ─────────────────────────────────────────────────────────────
 def parse_context_sources(context_str: str) -> list:
-    """
-    Parse source file names and page numbers from LightRAG raw context strings.
-    Looks for patterns like '=== Page 3 | F16_manual.pdf ===' embedded in chunk text.
-    """
     sources = []
     seen = set()
 

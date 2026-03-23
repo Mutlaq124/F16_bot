@@ -5,6 +5,9 @@ git+https://github.com/HKUDS/LightRAG.git@main
 openai>=1.30.0
 groq>=0.9.0
 ollama>=0.1.7
+sentence-transformers==2.6.1
+torch==2.3.0
+huggingface-hub==0.23.0
 
 python-dotenv>=1.0.0
 
