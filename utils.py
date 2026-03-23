@@ -61,7 +61,7 @@ except ImportError:
 # ─────────────────────────────────────────────────────────────
 # EMBEDDING FUNCTION
 # ─────────────────────────────────────────────────────────────
-def hf_embed(texts, *args, **kwargs):
+async def hf_embed(texts, *args, **kwargs):
     model = get_embedding_model()
 
     # Optional safety: truncate long texts
