@@ -73,7 +73,7 @@ async def hf_embed(texts, *args, **kwargs):
         show_progress_bar=False
     )
 
-    return embeddings.tolist()
+    return np.array(embeddings)
 
 
 def get_embedding_func() -> EmbeddingFunc:
