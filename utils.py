@@ -81,7 +81,7 @@ async def initialize_lightrag() -> Optional[LightRAG]:
                 kv_storage="JsonKVStorage", #in-memory fine for cloud
                 
                 # Disable local vector storage at query time (we only need graph)
-                vector_storage="NanoVectorDBStorage", # in-memory vector storage(no files)
+                vector_storage=None, 
                 
                 # no llm at query time 
                 embedding_func=None,          
