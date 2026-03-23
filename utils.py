@@ -35,38 +35,29 @@ logger = logging.getLogger(__name__)
 
 # ─────────────────────────────────────────────────────────────
 # EMBEDDING MODEL (CACHED)
-# ─────────────────────────────────────────────────────────────
-def get_embedding_model():
-    """
-    Loads and caches the HuggingFace embedding model.
-    Uses Streamlit cache when available.
-    """
-    try:
-        import streamlit as st
 
-        @st.cache_resource
-        def _load():
-            from sentence_transformers import SentenceTransformer
-            logger.info("Loading HuggingFace nomic-embed-text-v1.5...")
-            return SentenceTransformer(
-                "nomic-ai/nomic-embed-text-v1.5",
-                trust_remote_code=True,
-                device="cpu"
-            )
+try:
+    import streamlit as st
 
-        return _load()
-
-    except ImportError:
-        # Fallback (non-streamlit environments)
+    @st.cache_resource
+    def get_embedding_model():
         from sentence_transformers import SentenceTransformer
-        logger.info("Loading model without Streamlit cache...")
+        logger.info("Loading HuggingFace nomic model...")
         return SentenceTransformer(
             "nomic-ai/nomic-embed-text-v1.5",
             trust_remote_code=True,
             device="cpu"
         )
 
-
+except ImportError:
+    def get_embedding_model():
+        from sentence_transformers import SentenceTransformer
+        return SentenceTransformer(
+            "nomic-ai/nomic-embed-text-v1.5",
+            trust_remote_code=True,
+            device="cpu"
+        )
+        
 # ─────────────────────────────────────────────────────────────
 # EMBEDDING FUNCTION
 # ─────────────────────────────────────────────────────────────
@@ -83,7 +74,7 @@ def hf_embed(texts, *args, **kwargs):
     )
 
     return embeddings.tolist()
-    
+
 
 def get_embedding_func() -> EmbeddingFunc:
     if USE_OLLAMA:
@@ -139,7 +130,7 @@ async def initialize_lightrag() -> Optional[LightRAG]:
                 kv_storage="JsonKVStorage",
                 vector_storage="NanoVectorDBStorage",
                 embedding_func=get_embedding_func(),
-                llm_model_func=None,
+                llm_model_func=ollama_model_complete,
                 chunk_token_size=900,
                 enable_llm_cache=False,
                 addon_params={"entity_types": DEFENCE_ENTITY_TYPES},
