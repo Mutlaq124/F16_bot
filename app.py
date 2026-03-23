@@ -603,10 +603,12 @@ if user_prompt := st.chat_input("Ask about F-16 systems, features, specification
                         model_override=_model,
                     )
 
-                    full_response = st.write_stream(_stream_fn())
+                    full_response = st.write_stream(_stream_fn()) or ""
+                    raw_ctx = raw_ctx or ""
 
                     answer, llm_refs = extract_references_from_answer(full_response)
                     ctx_sources = extract_page_refs_from_context(raw_ctx)
+                    answer = answer or ""
                     
                     # Prevent listing useless random sources for out-of-box queries
                     if "I cannot answer that question" in answer:
