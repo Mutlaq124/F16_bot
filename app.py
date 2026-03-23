@@ -344,6 +344,39 @@ for key, default in [
 ollama_ok = check_ollama_connection()
 groq_ok = check_groq_connection()
 rag_instance = get_rag_instance()
+# ─── DEBUG BLOCK ────────────────────────────────────────────────
+with st.sidebar.expander("DEBUG: Neo4j Connection Status", expanded=True):
+    try:
+        from neo4j import GraphDatabase
+        import os
+        
+        uri = os.getenv("NEO4J_URI")
+        user = os.getenv("NEO4J_USERNAME")
+        pwd = os.getenv("NEO4J_PASSWORD")
+        db = os.getenv("NEO4J_DATABASE", "neo4j")
+        
+        st.write("**Connection Parameters Used**")
+        st.write(f"URI: {uri}")
+        st.write(f"Username: {user}")
+        st.write(f"Database: {db}")
+        st.write(f"Password length: {len(pwd) if pwd else 0}")
+        
+        driver = GraphDatabase.driver(uri, auth=(user, pwd))
+        
+        def test_query(tx):
+            result = tx.run("MATCH (n) RETURN count(n) AS cnt")
+            return result.single()["cnt"]
+        
+        with driver.session(database=db) as session:
+            count = session.execute_read(test_query)
+            st.success(f"✅ Connected! Aura has {count} nodes")
+            st.write("If count is ~42 → data is there")
+            
+        driver.close()
+        
+    except Exception as e:
+        st.error(f"❌ Connection FAILED")
+        st.code(str(e), language="text")
 
 # ─── Sidebar ──────────────────────────────────────────────────────────────────
 with st.sidebar:
