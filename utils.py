@@ -46,35 +46,65 @@ def get_embedding_func() -> EmbeddingFunc:
     )
 
 
+from lightrag.storage import Neo4JStorage, JsonKVStorage
+import os
+
 async def initialize_lightrag() -> Optional[LightRAG]:
     try:
-        Path(rag_config.working_dir).mkdir(parents=True, exist_ok=True)
-
-        rag = LightRAG(
-            working_dir=rag_config.working_dir,
-            embedding_func=get_embedding_func(),
-            llm_model_func=ollama_model_complete,
-            llm_model_name=ollama_config.llm_model,
-            llm_model_kwargs=ollama_config.llm_model_kwargs,
-            default_llm_timeout=300,
-            graph_storage="Neo4JStorage",
-            vector_storage="FaissVectorDBStorage",
-            chunk_token_size=ollama_config.chunk_size,
-            chunk_overlap_token_size=ollama_config.chunk_overlap,
-            llm_model_max_async=ollama_config.llm_model_max_async,
-            embedding_func_max_async=ollama_config.embedding_func_max_async,
-            entity_extract_max_gleaning=rag_config.entity_extract_max_gleaning,
-            enable_llm_cache=rag_config.enable_llm_cache,
-            addon_params={"entity_types": DEFENCE_ENTITY_TYPES},
-        )
+        if USE_OLLAMA:
+            # Local mode with FAISS & Embedder
+            Path(rag_config.working_dir).mkdir(parents=True, exist_ok=True)
+            rag = LightRAG(
+                working_dir=rag_config.working_dir,
+                embedding_func=get_embedding_func(),
+                llm_model_func=ollama_model_complete,
+                llm_model_name=ollama_config.llm_model,
+                llm_model_kwargs=ollama_config.llm_model_kwargs,
+                default_llm_timeout=300,
+                graph_storage="Neo4JStorage",
+                vector_storage="FaissVectorDBStorage",
+                chunk_token_size=ollama_config.chunk_size,
+                chunk_overlap_token_size=ollama_config.chunk_overlap,
+                llm_model_max_async=ollama_config.llm_model_max_async,
+                embedding_func_max_async=ollama_config.embedding_func_max_async,
+                entity_extract_max_gleaning=rag_config.entity_extract_max_gleaning,
+                enable_llm_cache=rag_config.enable_llm_cache,
+                addon_params={"entity_types": DEFENCE_ENTITY_TYPES},
+            )
+        else:
+            # User provided GRAPH-ONLY cloud deployment snippet
+            rag = LightRAG(
+                working_dir="./lightrag_storage",           # dummy folder (won't be used much)
+                workspace="f16_bot",
+                
+                # Force Neo4j for graph + KV
+                graph_storage=Neo4JStorage(
+                    uri=os.getenv("NEO4J_URI"),
+                    username=os.getenv("NEO4J_USERNAME"),
+                    password=os.getenv("NEO4J_PASSWORD"),
+                    database=os.getenv("NEO4J_DATABASE", "de61a7a7")   # keep your working one
+                ),
+                kv_storage=JsonKVStorage(),   # in-memory fallback (safe on cloud)
+                
+                # Disable local vector storage at query time (we only need graph)
+                vector_storage=None,
+                
+                # Pass dummies to prevent 'NoneType' callable crashes in aquery
+                embedding_func=get_embedding_func(),          
+                llm_model_func=ollama_model_complete,          
+                
+                chunk_token_size=900,
+                enable_llm_cache=True,
+                addon_params={"entity_types": DEFENCE_ENTITY_TYPES},
+            )
 
         await rag.initialize_storages()
         await initialize_pipeline_status()
-        logger.info("LightRAG fully initialized for inference")
+        logger.info(f"✅ LightRAG initialized. (Graph-Only Mode: {not USE_OLLAMA})")
         return rag
 
     except Exception as e:
-        logger.error(f"LightRAG initialization failed: {e}")
+        logger.error(f"❌ LightRAG init failed: {e}")
         return None
 
 
